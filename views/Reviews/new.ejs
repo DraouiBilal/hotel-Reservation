@@ -1,0 +1,21 @@
+<%-include("../partials/header")%>
+<div class="login">
+    <form method="POST" action="/hotels/<%=hotel._id%>/reviews">
+        <div class="form-group">
+            <label>Rating</label>
+            <select class="form-control" name="stars">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label >Review content</label>
+            <textarea class="form-control" name="text" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit review</button>
+    </form>
+</div>
+<%-include("../partials/footer")%>

@@ -1,0 +1,48 @@
+<%-include("../partials/header")%>
+    <div class="container mt-3">
+        <header class="jumbotron">
+            <div class="container">
+                <h1 class="display-4 text-xl-center">Welcome Hotel Reservation</h1>
+                <p class="lead">view our hand picked hotel from all over the world</p>
+                <%if(currentUser.username==="Admin"){%>
+                    <a href="/hotels/new" class="btn btn-success btn-lg">Add new Hotel</a>
+                <%}%>
+            </div>
+        </header>
+        <div>
+            <div class="row">
+                <%hotels.forEach((hotel)=>{%>
+                    <div class="col-md-4 cards">
+                        <div class="card border mb-3">
+                            <img src="<%=hotel.image%>" class="card-img-top cardImage" alt="Hotel Image">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item card-title cardTitle">
+                                    <%=hotel.name%>
+                                </li>
+                                <li class="list-group-item">
+                                    stars: <%for(let i=0;i!=hotel.stars;i++){%>
+                                                <i class="fas fa-star stars"></i>
+                                           <%}%>
+                                           <%for(let i=0;i!=5-hotel.stars;i++){%>
+                                                <i class="fas fa-star darkstars"></i>
+                                            <%}%>
+                                </li>
+                                <li class="list-group-item">Available rooms: <%=hotel.availableRooms%>
+                                </li>
+                            </ul>
+                            <div class="card-body">
+                                <h5 class="card-title">
+    
+                                </h5>
+                                <p class="card-text">
+                                    <%=hotel.description.substring(0,100)%>....
+                                </p>
+                                <a href="/hotels/<%=hotel._id%>" class="btn btn-primary">more Info</a>
+                            </div>
+                        </div>
+                    </div>
+                <%});%>
+            </div>
+        </div>
+    </div>
+<%-include("../partials/footer")%>

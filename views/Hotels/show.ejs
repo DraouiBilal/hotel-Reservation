@@ -1,0 +1,78 @@
+<%-include("../partials/header")%>
+    <div class="container">
+        <div class="row show">
+            <div class="col-md-6">
+                <div id="map"></div>
+                <div class="list-group">
+                    <p class="list-group-item list-group-item-action active">stars: <%for(let i=0;i!=hotel.stars;i++){%>
+                            <i class="fas fa-star stars"></i>
+                            <%}%>
+                            <%for(let i=0;i!=5-hotel.stars;i++){%>
+                                <i class="fas fa-star darkstars"></i>
+                            <%}%>
+                    </p>
+                    <p class="list-group-item list-group-item-action">Available rooms: <%=hotel.availableRooms%>
+                    </p>
+                    <p class="list-group-item list-group-item-action">Price: <%=hotel.price.toString()%>$/night</p>
+                </div>
+                <hr>
+                <div class="well">
+                    <div class="text-right">
+                        <a class="btn btn-success mb-3" href="/hotels/<%=hotel._id%>/reviews/new">Add new review</a>
+                    </div>
+                    <%if(!hotel.reviews.length){%>
+                        <p> No reviews are available for the moment</p>
+                    <%}%>
+                    <%hotel.reviews.forEach(function(review){%>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><span>Rating: 
+                                            <%for(let i=0;i!=review.stars;i++){%>
+                                                <i class="fas fa-star stars"></i>
+                                            <%}%>
+                                            <%for(let i=0;i!=5-review.stars;i++){%>
+                                                <i class="fas fa-star darkstars"></i>
+                                            <%}%>
+                                        </span></h5>
+                                      <h6 class="card-subtitle mb-2 text-muted"><%=review.author.username%></h6>
+                                      <h6 class="card-subtitle mb-2 text-muted"></h6>
+                                      <p class="card-text"><%=review.text%></p>
+                                      <%if(String(currentUser._id) === String(review.author.id)){%>
+                                        <form action="/hotels/<%=hotel._id%>/reviews/<%=review._id%>/delete?_method=DELETE" method="POST" class="inlineForm">
+                                            <input type="submit" class="btn btn-danger btn-sm float-right" value="Delete">
+                                        </form>
+                                      <%}%>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <%})%>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="jumbotron border jumbo">
+                    <h1 class="display-4 cardTitleShow jumboTitle">
+                        <%=hotel.name%>
+                    </h1>
+                    <img src="<%=hotel.image%>" alt="Hotel Image" class="jumboImage">
+                    <hr class="my-4">
+                    <p class="lead">
+                        <%=hotel.description%>
+                    </p>
+                    <hr class="my-4">
+                    <%if(currentUser && !isAdmin){%>
+                        <a class="btn btn-primary btn-lg" href="/hotels/<%=hotel._id%>/reservation" role="button">Reserve a night</a>
+                    <%}%>
+                    <%if(currentUser && isAdmin){%>
+                        <a class="btn btn-warning btn-lg" href="/hotels/<%=hotel._id%>/edit?_method=PUT" role="button">Edit</a>
+                        <form action="/hotels/<%=hotel._id%>/delete?_method=DELETE" method="POST" class="inlineForm">
+                            <input type="submit" class="btn btn-danger btn-lg" value="Delete">
+                        </form>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+<%-include("../partials/footer")%>
